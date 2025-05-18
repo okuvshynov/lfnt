@@ -45,7 +45,20 @@ async def handle_request(extended_request: ExtendedRequest):
             headers={"content-type": "application/json"}
         )
         
-        if restore_response.status_code != 200:
+        restore_data = None
+        if restore_response.status_code == 200:
+            try:
+                restore_data = restore_response.json()
+                logger.info(
+                    f"Session restore details: id_slot={restore_data.get('id_slot')}, "
+                    f"filename={restore_data.get('filename')}, "
+                    f"n_restored={restore_data.get('n_restored')}, "
+                    f"n_read={restore_data.get('n_read')}, "
+                    f"restore_ms={restore_data.get('timings', {}).get('restore_ms')}"
+                )
+            except Exception as e:
+                logger.error(f"Error parsing restore response: {str(e)}")
+        else:
             logger.error(f"Session restore failed: {restore_response.text}")
             # Continue anyway, might be a new session
         
@@ -80,7 +93,20 @@ async def handle_request(extended_request: ExtendedRequest):
             headers={"content-type": "application/json"}
         )
         
-        if save_response.status_code != 200:
+        save_data = None
+        if save_response.status_code == 200:
+            try:
+                save_data = save_response.json()
+                logger.info(
+                    f"Session save details: id_slot={save_data.get('id_slot')}, "
+                    f"filename={save_data.get('filename')}, "
+                    f"n_saved={save_data.get('n_saved')}, "
+                    f"n_written={save_data.get('n_written')}, "
+                    f"save_ms={save_data.get('timings', {}).get('save_ms')}"
+                )
+            except Exception as e:
+                logger.error(f"Error parsing save response: {str(e)}")
+        else:
             logger.error(f"Session save failed: {save_response.text}")
             # Continue anyway, we still want to return the response
         
