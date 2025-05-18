@@ -1,0 +1,35 @@
+Implement a wrapper over http server which would handle session management and persistence.
+
+The interface for existing server S is a POST request to endpoint v1/chat/completions
+
+The only HTTP header is content-type == json.
+The data is some json payload.
+
+Our service should receive the extended request:
+
+data = {
+    "key": "some_string_key",
+    "request" : request_we_need_to_pass_to_original
+}
+
+Before sending the request to S, we need to do the following:
+
+1. Call S on /slots/0?action=restore endpoint with the following json payload:
+
+{
+    "filename": f"{data.key}.bin"
+}
+
+2. Call the S' main endpoint with data.request
+
+3. Return the response to client
+
+4. After that, call /slots/0?action=save endpoint with same 
+
+{
+    "filename": f"{data.key}.bin"
+}
+
+
+
+
