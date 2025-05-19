@@ -4,6 +4,7 @@ from pydantic import BaseModel
 import httpx
 import logging
 from app.config import settings
+from app.routers import git_history
 
 # Configure logging
 logging.basicConfig(
@@ -14,6 +15,9 @@ logger = logging.getLogger(__name__)
 
 # Initialize FastAPI app
 app = FastAPI(title="Session Management Service")
+
+# Include routers
+app.include_router(git_history.router)
 
 # Data models
 class ExtendedRequest(BaseModel):

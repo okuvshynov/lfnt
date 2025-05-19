@@ -1,23 +1,10 @@
-Implement a test script to check our service using curl.
+Implement yet another microservice.
 
-Example request:
+It should receive 2 arguments:
+1. Path to git repository
+2. Text query
 
-(base) Mac ~/projects/lfnt % curl http://localhost:8000/v1/chat/completions \
--H "Content-Type: application/json" \
--H "Authorization: Bearer no-key" \
--d '{
-"key": "py_excp",
-"request" : {
-    "messages": [
-        {
-            "role": "user",
-            "content": "Write a joke"
-        }
-    ]}
-}'
-
-We need to test it with longer message. To do that, create a script which would run curl like above, the content should be:
-
-'Please briefly summarize the following file: <content of data/sample.txt>'
-
-Create a small sample.txt file first, I'll create a larger file for testing myself.
+It needs to:
+1. Collect detailed log of the repo, similar to what you'd get by running 'git show <>', for last N commits. Include full hash, short hash (8 symbols) and the content.
+2. Create a message like 'You are given last N commits and a request at the end. Return the most relevant commit ids for engineer to sudy to better understand the codebase and request. <commits> <original_query>'
+3. Send http post request to current Session Management Service. check test_service to see the format for the request. Use last component of repo path + '_git_history' as session key. For example, if the git repo path was /home/alice/projects/foobar, use foobar_git_history as session key.
