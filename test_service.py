@@ -26,6 +26,8 @@ load_dotenv()
 # Configuration
 HOST = os.getenv("HOST", "0.0.0.0")
 PORT = os.getenv("PORT", "8000")
+TIMEOUT = float(os.getenv("ORIGINAL_SERVER_TIMEOUT", "3600.0"))
+
 ENDPOINT = "/v1/chat/completions"
 URL = f"http://{HOST}:{PORT}{ENDPOINT}"
 DEFAULT_SESSION_KEY = "test_session"
@@ -89,7 +91,7 @@ async def main():
         print(f"Request includes content from: {file_path}")
 
         # Send the request using httpx
-        async with httpx.AsyncClient(timeout=60.0) as client:
+        async with httpx.AsyncClient(timeout=TIMEOUT) as client:
             headers = {
                 "Content-Type": "application/json",
                 "Authorization": "Bearer no-key"
