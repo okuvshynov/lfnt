@@ -1,0 +1,10 @@
+[project]
+name = "git_history_mcp"
+version = "0.1.0"
+description = "MCP server for git history lookup"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "httpx>=0.24.0",
+    "mcp[cli]>=1.6.0",
+]
