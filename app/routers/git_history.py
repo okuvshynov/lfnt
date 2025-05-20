@@ -98,6 +98,7 @@ async def format_git_history_request(commits, query):
         f"Return the most relevant commit ids for engineer to study to better "
         f"understand the codebase and request.\n\n"
         f"RETURN ONLY REFERENCES: commit_ids, filenames and important symbols/functions. DO NOT implement anything yourself.\n\n"
+        f"FOCUS ON BREVITY, DEVELOPER WILL BE ABLE TO LOOK AT REFERENCES THEMSELVES"
         f"{commit_text}\n\n"
         f"Request: {query}"
     )
